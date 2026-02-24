@@ -2,72 +2,90 @@
 
 <p align="center">
   <strong>Your Claude Code agents, alive in the terminal</strong><br>
-  <em>Animated ASCII characters. Real-time activity. Zero dependencies.</em>
+  <em>Animated ASCII characters. Real-time activity. Single binary. Zero dependencies.</em>
 </p>
 
 <p align="center">
-  <a href="#quick-start">Quick Start</a> &bull;
-  <a href="#how-it-works">How It Works</a> &bull;
   <a href="#installation">Installation</a> &bull;
-  <a href="#the-pixel-agents-family">Family</a> &bull;
-  <a href="#keybindings">Keybindings</a> &bull;
-  <a href="#configuration">Configuration</a>
+  <a href="#claude-code-plugin-setup">Plugin Setup</a> &bull;
+  <a href="#usage">Usage</a> &bull;
+  <a href="#configuration">Configuration</a> &bull;
+  <a href="#about">About</a>
 </p>
 
 ---
 
-A **Rust binary** that opens a split pane in your terminal and visualizes your Claude Code agents as animated ASCII art characters in a virtual office. Watch them type, read, spawn sub-agents, and track SDD workflow phases — all in real-time.
-
 ```
-┌─────── Office ──────┬──── Agent Details ────┐
-│                      │ ▸ Agent #1 [● active] │
-│   ╔═══╗  ╔═══╗      │   Tool: Write main.ts │
-│   ╚═══╝  ╚═══╝      │   Prompt: "Fix auth.."│
-│    ◉₁     ◉₂        │   SDD: Apply (6/8)    │
-│                      │   Sub-agents:         │
-│   ╔═══╗             │   └─ Explore: search  │
-│   ╚═══╝             ├───────────────────────┤
-│    ◉₃               │   Agent #2 [○ waiting]│
-│                      │   Last: Read config.ts│
-├──────────────────────┴───────────────────────┤
-│ [q]uit  [1-9]select  [Tab]focus      10 FPS │
-└──────────────────────────────────────────────┘
+┌──────────────────── pixel-agents-tui ────────────────────┐
+│ ◉ Pixel Agents TUI    3 agents │ SDD: Apply (6/8)       │
+├──────────── Office ─────────────┼──── Agent Details ─────┤
+│                                 │                        │
+│   ╔═══╗  ╔═══╗  ╔═══╗         │ ▸ Agent #1 [● active]  │
+│   ╚═══╝  ╚═══╝  ╚═══╝         │   Tool: Write main.ts  │
+│    ◉₁     ◉₂                   │   Prompt: "Fix auth.." │
+│                                 │   SDD: Apply (6/8)     │
+│   ╔═══╗  ╔═══╗                 │   Sub-agents:          │
+│   ╚═══╝  ╚═══╝                 │   └─ Explore: search   │
+│           ◉₃    ◇              ├────────────────────────┤
+│                                 │   Agent #2 [○ waiting] │
+│                                 │   Last: Read config.ts │
+├─────────────────────────────────┴────────────────────────┤
+│ [q]uit  [1-9]select  [Tab]focus  [↑↓]scroll      10 FPS │
+└──────────────────────────────────────────────────────────┘
 ```
 
-## The Pixel Agents Family
+## About
 
-This is the **terminal edition** of the Pixel Agents ecosystem:
+This project is inspired by [Pixel Agents](https://github.com/pablodelucca/pixel-agents), the VS Code extension created by [@pablodelucca](https://github.com/pablodelucca) that turns your Claude Code agents into animated pixel art characters inside a virtual office. If you use VS Code, check out the original — it's beautiful.
 
-| Version | Runtime | Link |
-|---------|---------|------|
-| [Pixel Agents](https://github.com/pablodelucca/pixel-agents) | VS Code Extension | Full pixel art office inside VS Code, by [@pablodelucca](https://github.com/pablodelucca) |
-| [Pixel Agents Desktop](https://github.com/Dsantiagomj/pixel-agents-desktop) | Electron App | Standalone desktop app, works with any editor |
-| **Pixel Agents TUI** | Terminal (Rust) | This project — lightweight ASCII art in your terminal |
+**Pixel Agents TUI** brings that same idea to the terminal. Instead of pixel-perfect sprites, it uses animated ASCII characters rendered with [Ratatui](https://ratatui.rs). The result is a lightweight dashboard that works in any terminal, on any machine, with zero runtime dependencies.
 
-All three watch Claude Code's JSONL session files at `~/.claude/projects/` to visualize agent activity. The TUI version trades pixel-perfect sprites for universal terminal compatibility and near-zero resource usage.
+There's also [Pixel Agents Desktop](https://github.com/Dsantiagomj/pixel-agents-desktop), a standalone Electron app that runs independently of any editor. All three versions share the same core concept: watch Claude Code's JSONL session files and visualize what your agents are doing in real-time.
 
-## Quick Start
+| Version | Runtime | Best for |
+|---------|---------|----------|
+| [Pixel Agents](https://github.com/pablodelucca/pixel-agents) | VS Code Extension | VS Code users who want pixel art sprites |
+| [Pixel Agents Desktop](https://github.com/Dsantiagomj/pixel-agents-desktop) | Electron App | Editor-agnostic pixel art visualization |
+| **Pixel Agents TUI** | Rust binary | Terminal-native, minimal resource usage |
 
-### Install via Homebrew (recommended)
+### What it shows
+
+- **Animated ASCII characters** at desks in a virtual office — each agent types, reads, or idles based on the tool it's currently using
+- **Real-time tool activity** — `Reading main.rs`, `Running: cargo test`, `Searching code`, `Writing auth.rs`...
+- **Sub-agent trees** — when an agent spawns sub-agents via the Task tool, they appear as smaller characters near the parent
+- **SDD workflow tracking** — detects [Spec-Driven Development](https://github.com/Dsantiagomj/pixel-agents-tui) phases: Explore, Propose, Spec, Design, Tasks, Apply, Verify, Archive
+- **Prompt summary** — the first meaningful text from each agent, so you know what it's working on
+
+---
+
+## Installation
+
+You need to install two things: the **binary** (the TUI itself) and the **Claude Code plugin** (so it launches automatically).
+
+### Step 1: Install the binary
+
+Choose one of these methods:
+
+#### Homebrew (macOS / Linux)
 
 ```bash
 brew tap Dsantiagomj/tap
 brew install pixel-agents-tui
 ```
 
-Upgrade to latest:
+To upgrade later:
 
 ```bash
 brew update && brew upgrade pixel-agents-tui
 ```
 
-### Install via Cargo
+#### Cargo (any platform with Rust)
 
 ```bash
 cargo install pixel-agents-tui
 ```
 
-### Install from source
+#### From source
 
 ```bash
 git clone https://github.com/Dsantiagomj/pixel-agents-tui.git
@@ -75,72 +93,52 @@ cd pixel-agents-tui
 cargo install --path .
 ```
 
-### Set up the Claude Code plugin
-
-The plugin auto-launches the TUI when you start a Claude Code session:
+Verify it's installed:
 
 ```bash
-# Via Claude Code marketplace
+pixel-agents-tui --help
+```
+
+### Step 2: Install the Claude Code plugin
+
+The plugin adds a `SessionStart` hook that auto-launches the TUI in a split pane every time you start a Claude Code session.
+
+#### Via Claude Code marketplace (recommended)
+
+```bash
 claude plugin marketplace add Dsantiagomj/pixel-agents-tui
 claude plugin install pixel-agents-tui
+```
 
-# Or manually — copy the plugin to your Claude plugins dir
+#### Manual install
+
+If you prefer to install the plugin manually, copy it to your Claude plugins directory:
+
+```bash
+mkdir -p ~/.claude/plugins/pixel-agents-tui
 cp -r plugin/.claude-plugin ~/.claude/plugins/pixel-agents-tui/.claude-plugin
 cp -r plugin/hooks ~/.claude/plugins/pixel-agents-tui/hooks
 ```
 
-That's it. Start Claude Code and the TUI opens automatically in a split pane.
+That's it. The next time you run `claude`, the TUI will open automatically in a split pane next to your session.
 
-## How It Works
-
-```
-~/.claude/projects/**/*.jsonl     (Claude Code session logs)
-        │
-        ▼
-   pixel-agents-tui               (this binary)
-   ├── Watches JSONL files         (notify + polling)
-   ├── Parses tool_use events      (incremental, offset-based)
-   ├── Tracks agent state          (active/waiting/dormant)
-   ├── Detects SDD phases          (explore → apply → verify)
-   └── Renders ASCII office        (ratatui @ 10 FPS)
-        │
-        ▼
-   Terminal split pane             (auto-detected)
-```
-
-### What it shows
-
-- **Animated ASCII characters** — each agent gets a character that types, reads, or idles based on what tool it's using
-- **Real-time tool activity** — see exactly what each agent is doing (Reading main.rs, Running: cargo test, Searching code...)
-- **Sub-agent trees** — when an agent spawns sub-agents via the Task tool, they appear in the office and sidebar
-- **SDD workflow tracking** — detects Spec-Driven Development phases (Explore, Propose, Spec, Design, Tasks, Apply, Verify, Archive)
-- **Prompt summary** — shows a summary of what each agent is working on
-
-### Terminal auto-detection
-
-The TUI automatically detects your terminal and creates a split pane:
-
-| Terminal | Detection | Split method |
-|----------|-----------|-------------|
-| Zellij | `$ZELLIJ` | `zellij action new-pane --direction right` |
-| WezTerm | `$WEZTERM_PANE` | `wezterm cli split-pane --right` |
-| Kitty | `$KITTY_PID` | `kitty @ launch --location=vsplit` |
-| tmux | `$TMUX` | `tmux split-window -h` |
-| Other | fallback | Opens new terminal tab |
+---
 
 ## Usage
 
-### Automatic (via plugin)
+### Automatic (with the plugin installed)
 
-Once the Claude Code plugin is installed, the TUI launches automatically when you start a session. It detects your terminal, creates a split pane, and starts watching for agent activity.
+Just start Claude Code normally. The plugin detects your terminal, creates a split pane to the right, and launches the TUI. If a TUI panel is already running, it won't create a duplicate.
 
 ### Manual
 
+You can also run it manually without the plugin:
+
 ```bash
-# Launch the TUI (detects terminal, creates split)
+# Detect terminal, create split pane, launch TUI in it
 pixel-agents-tui
 
-# Or run directly in the current terminal
+# Run the TUI directly in the current terminal (no split)
 pixel-agents-tui --attach
 ```
 
@@ -148,67 +146,107 @@ pixel-agents-tui --attach
 
 | Flag | Description |
 |------|-------------|
-| `--attach` | Run the TUI directly (skip terminal detection and split creation) |
-| `--session-hook` | Used by the Claude Code plugin hook (same as no flags) |
+| `--attach` | Run the TUI directly in the current terminal window. Skips terminal detection and split pane creation. Use this when you want to open the TUI in a terminal you already have open. |
+| `--session-hook` | Used internally by the Claude Code plugin. Behaves the same as running without flags. |
+| *(no flags)* | Launcher mode. Detects your terminal, creates a split pane, and starts a `--attach` instance inside it. |
 
-## Keybindings
+### Keybindings
 
 | Key | Action |
 |-----|--------|
-| `q` | Quit |
-| `1-9` | Select agent by number |
-| `Tab` | Toggle focus between Office and Sidebar |
-| `↑` / `↓` | Scroll sidebar |
-| `r` | Force refresh |
+| `q` | Quit the TUI |
+| `1`-`9` | Select agent by number |
+| `Tab` | Toggle focus between Office panel and Sidebar |
+| `↑` / `↓` | Scroll the sidebar when focused |
+| `r` | Force an immediate refresh (resets the scan timer) |
 
-## Layout
-
-```
-┌──────────────────── pixel-agents-tui ────────────────────┐
-│ ◉ Pixel Agents TUI    N agents │ SDD: Phase (x/y)       │
-├──────────── Office ─────────────┼──── Agent Details ─────┤
-│                                 │                        │
-│   Animated ASCII characters     │ ▸ Selected agent info  │
-│   at desks, typing/reading      │   Tool, prompt, SDD    │
-│   based on current activity     │   Sub-agent tree       │
-│                                 ├────────────────────────┤
-│   Sub-agents spawn nearby       │   Other agents listed  │
-│                                 │   with status icons    │
-├─────────────────────────────────┴────────────────────────┤
-│ [q]uit  [1-9]select  [Tab]focus  [↑↓]scroll      10 FPS │
-└──────────────────────────────────────────────────────────┘
-```
-
-### Status indicators
-
-| Symbol | Meaning |
-|--------|---------|
-| `●` | Agent is active (using tools) |
-| `○` | Agent is waiting (turn ended, needs input) |
-| `◌` | Agent is dormant (no activity for 5+ minutes) |
-
-### Character animations
-
-| State | Appearance | When |
-|-------|-----------|------|
-| Typing | Arms moving | Agent is writing, editing, running commands |
-| Reading | Holding document | Agent is reading files, searching code |
-| Idle | Standing still | Agent has no active tools |
-| Walking | Legs moving | Agent moving between positions |
+---
 
 ## Configuration
 
-The TUI stores its PID file at `/tmp/pixel-agents-tui.pid` to prevent duplicate panels. It watches `~/.claude/projects/` for JSONL session files.
+### Terminal auto-detection
 
-No additional configuration is needed — it works out of the box.
+The TUI detects which terminal multiplexer or emulator you're running and uses its native API to create a split pane:
+
+| Terminal | How it's detected | Split command |
+|----------|------------------|---------------|
+| **Zellij** | `$ZELLIJ` or `$ZELLIJ_SESSION_NAME` | `zellij action new-pane --direction right` |
+| **WezTerm** | `$WEZTERM_PANE` or `$WEZTERM_EXECUTABLE` | `wezterm cli split-pane --right --percent 35` |
+| **Kitty** | `$KITTY_PID` or `$KITTY_WINDOW_ID` | `kitty @ launch --location=vsplit` |
+| **tmux** | `$TMUX` | `tmux split-window -h -l 35%` |
+| **Other** | fallback | Opens a new terminal tab |
+
+The split pane takes ~35% of the terminal width. The detection order is: Zellij > WezTerm > Kitty > tmux > fallback.
+
+### Singleton behavior
+
+The TUI writes a PID file to `/tmp/pixel-agents-tui.pid` when it starts. If the plugin hook fires and detects the TUI is already running, it does nothing. This prevents multiple panels from opening when you start new Claude Code sessions.
+
+### Session discovery
+
+The TUI watches `~/.claude/projects/` recursively for `.jsonl` session files. It uses the OS-native filesystem watcher (`kqueue` on macOS, `inotify` on Linux) with a 2-second polling fallback for reliability.
+
+- **Active sessions**: `.jsonl` files modified within the last 5 minutes
+- **Dormant sessions**: files with no changes for 5+ minutes are marked dormant and the agent character turns gray
+- **Scan interval**: new sessions are checked every ~2 seconds
+
+### SDD phase detection
+
+If you use Spec-Driven Development, the TUI detects which phase the agent is in by watching for `Skill` tool invocations that match `sdd-*` patterns:
+
+| Detected skill | Phase shown |
+|---------------|-------------|
+| `sdd-explore` | Explore (1/8) |
+| `sdd-propose` | Propose (2/8) |
+| `sdd-spec` | Spec (3/8) |
+| `sdd-design` | Design (4/8) |
+| `sdd-tasks` | Tasks (5/8) |
+| `sdd-apply` | Apply (6/8) |
+| `sdd-verify` | Verify (7/8) |
+| `sdd-archive` | Archive (8/8) |
+
+The current SDD phase appears in the header bar and in the selected agent's detail panel.
+
+### Status indicators
+
+| Symbol | Color | Meaning |
+|--------|-------|---------|
+| `●` | Green | Agent is actively using tools |
+| `○` | Yellow | Agent finished its turn and is waiting for input |
+| `◌` | Gray | Agent has been inactive for 5+ minutes |
+
+### Character animations
+
+Each agent is a 3x3 ASCII character that animates based on the tool it's currently using:
+
+| Animation | Triggers | Tools |
+|-----------|----------|-------|
+| **Typing** | Agent is writing or executing | Write, Edit, Bash, Task, Skill |
+| **Reading** | Agent is consuming information | Read, Grep, Glob, WebFetch, WebSearch |
+| **Idle** | No tools active | *(between turns)* |
+
+Agent colors cycle through Cyan, Magenta, Yellow, Green, Blue, Red. Sub-agents spawned via the Task tool appear as dim `◇` markers near their parent.
+
+---
 
 ## Architecture
 
-Single Rust binary, zero runtime dependencies.
+Single Rust binary. No Node.js, no Python, no Docker, no runtime dependencies.
+
+```
+pixel-agents-tui
+├── Terminal Adapter        Detect terminal, create split pane
+├── JSONL Watcher           Watch ~/.claude/projects/ for session files
+│   ├── Session Discovery   Find new/removed .jsonl files
+│   ├── File Reader         Incremental offset-based reading
+│   └── Line Parser         Parse tool_use, tool_result, text, turn_duration
+├── Agent State Machine     Track status, tools, sub-agents, SDD phase
+└── Ratatui Renderer        Office view + agent sidebar @ 10 FPS
+```
 
 ```
 src/
-├── main.rs              # CLI entry point (launcher/attach modes)
+├── main.rs              # CLI (launcher / attach modes)
 ├── app.rs               # Central state + tick loop
 ├── terminal/
 │   └── detect.rs        # Terminal detection + split commands
@@ -225,20 +263,26 @@ src/
     └── layout.rs        # Ratatui rendering
 ```
 
-### Tech stack
+### Built with
 
-- **Rust** — single binary, instant startup, low memory
+- **[Rust](https://www.rust-lang.org)** — single binary, instant startup, low memory
 - **[Ratatui](https://ratatui.rs)** — terminal UI framework
-- **[Crossterm](https://github.com/crossterm-rs/crossterm)** — cross-platform terminal manipulation
-- **[notify](https://github.com/notify-rs/notify)** — filesystem watching (kqueue on macOS, inotify on Linux)
+- **[Crossterm](https://github.com/crossterm-rs/crossterm)** — cross-platform terminal backend
+- **[notify](https://github.com/notify-rs/notify)** — filesystem watching
+
+---
 
 ## Development
 
 ```bash
+# Clone
+git clone https://github.com/Dsantiagomj/pixel-agents-tui.git
+cd pixel-agents-tui
+
 # Run in dev mode
 cargo run -- --attach
 
-# Run tests
+# Run tests (61 tests)
 cargo test
 
 # Lint
@@ -248,9 +292,11 @@ cargo clippy -- -W clippy::all
 cargo fmt
 ```
 
+---
+
 ## Credits
 
-- Original [Pixel Agents](https://github.com/pablodelucca/pixel-agents) VS Code extension by [@pablodelucca](https://github.com/pablodelucca)
+- Inspired by the original [Pixel Agents](https://github.com/pablodelucca/pixel-agents) VS Code extension by [@pablodelucca](https://github.com/pablodelucca)
 - [Pixel Agents Desktop](https://github.com/Dsantiagomj/pixel-agents-desktop) by [@Dsantiagomj](https://github.com/Dsantiagomj)
 - Built with [Ratatui](https://ratatui.rs)
 
