@@ -112,10 +112,7 @@ pub fn build_fallback_command(binary_path: &str) -> SplitCommand {
     } else {
         SplitCommand {
             program: "xterm".to_string(),
-            args: vec![
-                "-e".to_string(),
-                format!("{} --attach", binary_path),
-            ],
+            args: vec!["-e".to_string(), format!("{} --attach", binary_path)],
         }
     }
 }

@@ -10,6 +10,12 @@ pub struct IncrementalReader {
     offsets: HashMap<PathBuf, u64>,
 }
 
+impl Default for IncrementalReader {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl IncrementalReader {
     pub fn new() -> Self {
         Self {
@@ -39,7 +45,7 @@ impl IncrementalReader {
         };
 
         let mut reader = BufReader::new(file);
-        if let Err(_) = reader.seek(SeekFrom::Start(offset)) {
+        if reader.seek(SeekFrom::Start(offset)).is_err() {
             return Vec::new();
         }
 
@@ -124,7 +130,11 @@ mod tests {
         reader.read_new_lines(&file_path); // Read all
         {
             let mut f = File::create(&file_path).unwrap(); // Truncate
-            writeln!(f, r#"{{"type":"assistant","message":{{"content":[{{"type":"text","text":"new"}}]}}}}"#).unwrap();
+            writeln!(
+                f,
+                r#"{{"type":"assistant","message":{{"content":[{{"type":"text","text":"new"}}]}}}}"#
+            )
+            .unwrap();
         }
         let records = reader.read_new_lines(&file_path);
         assert_eq!(records.len(), 1); // Re-reads from beginning

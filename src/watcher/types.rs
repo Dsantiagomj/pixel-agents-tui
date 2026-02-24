@@ -104,7 +104,8 @@ mod tests {
 
     #[test]
     fn deserialize_text_content() {
-        let json = r#"{"type":"assistant","message":{"content":[{"type":"text","text":"Hello world"}]}}"#;
+        let json =
+            r#"{"type":"assistant","message":{"content":[{"type":"text","text":"Hello world"}]}}"#;
         let record: JsonlRecord = serde_json::from_str(json).unwrap();
         match record {
             JsonlRecord::Assistant { message } => match &message.content[0] {

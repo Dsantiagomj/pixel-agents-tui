@@ -14,7 +14,10 @@ const PID_FILE: &str = "/tmp/pixel-agents-tui.pid";
 const TICK_RATE: Duration = Duration::from_millis(100);
 
 #[derive(Parser, Debug)]
-#[command(name = "pixel-agents-tui", about = "TUI dashboard for Claude Code agents")]
+#[command(
+    name = "pixel-agents-tui",
+    about = "TUI dashboard for Claude Code agents"
+)]
 struct Cli {
     /// Run in attach mode (renders the TUI)
     #[arg(long)]
@@ -68,15 +71,12 @@ fn launch_split() -> io::Result<()> {
         .args(&split_cmd.args)
         .spawn()
         .map_err(|e| {
-            io::Error::new(
-                io::ErrorKind::Other,
-                format!(
-                    "Failed to spawn {} {}: {}",
-                    split_cmd.program,
-                    split_cmd.args.join(" "),
-                    e
-                ),
-            )
+            io::Error::other(format!(
+                "Failed to spawn {} {}: {}",
+                split_cmd.program,
+                split_cmd.args.join(" "),
+                e
+            ))
         })?;
 
     Ok(())

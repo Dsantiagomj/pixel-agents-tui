@@ -18,11 +18,9 @@ pub fn render(frame: &mut Frame, app: &App) {
     ])
     .areas(frame.area());
 
-    let [office_area, sidebar_area] = Layout::horizontal([
-        Constraint::Percentage(55),
-        Constraint::Percentage(45),
-    ])
-    .areas(body_area);
+    let [office_area, sidebar_area] =
+        Layout::horizontal([Constraint::Percentage(55), Constraint::Percentage(45)])
+            .areas(body_area);
 
     render_header(frame, app, header_area);
     render_office(frame, app, office_area);
@@ -45,10 +43,7 @@ fn render_header(frame: &mut Frame, app: &App, area: Rect) {
         format!("   {agent_count} agents"),
         Style::new().fg(Color::White),
     );
-    let sdd_span = Span::styled(
-        format!("   {sdd_display}"),
-        Style::new().fg(Color::Yellow),
-    );
+    let sdd_span = Span::styled(format!("   {sdd_display}"), Style::new().fg(Color::Yellow));
 
     let header_line = Line::from(vec![title_span, count_span, sdd_span]);
     let header = Paragraph::new(header_line).block(
@@ -188,7 +183,10 @@ fn render_sidebar(frame: &mut Frame, app: &App, area: Rect) {
             Span::styled(marker, header_style),
             Span::styled(format!("Agent #{id} "), header_style),
             Span::styled("[", Style::new().fg(Color::White)),
-            Span::styled(format!("{status_symbol} {status_label}"), Style::new().fg(status_color)),
+            Span::styled(
+                format!("{status_symbol} {status_label}"),
+                Style::new().fg(status_color),
+            ),
             Span::styled("]", Style::new().fg(Color::White)),
         ]));
 

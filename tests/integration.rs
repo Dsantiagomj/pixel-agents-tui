@@ -18,7 +18,11 @@ fn setup_fake_claude_dir(dir: &Path) {
     // 2. Agent reads a file
     writeln!(f, r#"{{"type":"assistant","message":{{"content":[{{"type":"tool_use","id":"t1","name":"Read","input":{{"file_path":"/src/auth.rs"}}}}]}}}}"#).unwrap();
     // 3. Tool completes
-    writeln!(f, r#"{{"type":"user","message":{{"content":[{{"type":"tool_result","tool_use_id":"t1"}}]}}}}"#).unwrap();
+    writeln!(
+        f,
+        r#"{{"type":"user","message":{{"content":[{{"type":"tool_result","tool_use_id":"t1"}}]}}}}"#
+    )
+    .unwrap();
     // 4. Agent invokes SDD skill
     writeln!(f, r#"{{"type":"assistant","message":{{"content":[{{"type":"tool_use","id":"t2","name":"Skill","input":{{"skill":"sdd-apply"}}}}]}}}}"#).unwrap();
     // 5. Agent writes a file
@@ -26,9 +30,17 @@ fn setup_fake_claude_dir(dir: &Path) {
     // 6. Agent spawns a sub-agent via Task
     writeln!(f, r#"{{"type":"assistant","message":{{"content":[{{"type":"tool_use","id":"t4","name":"Task","input":{{"description":"Explore auth patterns","subagent_type":"Explore"}}}}]}}}}"#).unwrap();
     // 7. Write tool completes
-    writeln!(f, r#"{{"type":"user","message":{{"content":[{{"type":"tool_result","tool_use_id":"t3"}}]}}}}"#).unwrap();
+    writeln!(
+        f,
+        r#"{{"type":"user","message":{{"content":[{{"type":"tool_result","tool_use_id":"t3"}}]}}}}"#
+    )
+    .unwrap();
     // 8. Turn ends
-    writeln!(f, r#"{{"type":"system","subtype":"turn_duration","duration_ms":5000}}"#).unwrap();
+    writeln!(
+        f,
+        r#"{{"type":"system","subtype":"turn_duration","duration_ms":5000}}"#
+    )
+    .unwrap();
 }
 
 #[test]
@@ -131,7 +143,12 @@ fn incremental_read_picks_up_new_lines() {
 
     assert_eq!(app.agents.len(), 1);
     let agent_id = *app.agents.keys().next().unwrap();
-    assert!(app.agents.get(&agent_id).unwrap().prompt_summary.contains("Starting work"));
+    assert!(app
+        .agents
+        .get(&agent_id)
+        .unwrap()
+        .prompt_summary
+        .contains("Starting work"));
 
     // Append a tool use line
     {

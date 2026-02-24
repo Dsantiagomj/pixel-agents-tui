@@ -114,10 +114,7 @@ pub fn format_tool_status(name: &str, input: &Value) -> String {
             format!("{verb} {basename}")
         }
         "Bash" => {
-            let cmd = input
-                .get("command")
-                .and_then(|v| v.as_str())
-                .unwrap_or("");
+            let cmd = input.get("command").and_then(|v| v.as_str()).unwrap_or("");
             let truncated = truncate(cmd, 30);
             format!("Running: {truncated}")
         }
@@ -191,7 +188,8 @@ mod tests {
 
     #[test]
     fn extract_tool_results_from_user() {
-        let json = r#"{"type":"user","message":{"content":[{"type":"tool_result","tool_use_id":"t1"}]}}"#;
+        let json =
+            r#"{"type":"user","message":{"content":[{"type":"tool_result","tool_use_id":"t1"}]}}"#;
         let record = parse_line(json).unwrap();
         let results = extract_tool_results(&record);
         assert_eq!(results, vec!["t1"]);
@@ -199,7 +197,8 @@ mod tests {
 
     #[test]
     fn extract_text_from_assistant() {
-        let json = r#"{"type":"assistant","message":{"content":[{"type":"text","text":"Hello world"}]}}"#;
+        let json =
+            r#"{"type":"assistant","message":{"content":[{"type":"text","text":"Hello world"}]}}"#;
         let record = parse_line(json).unwrap();
         let text = extract_text(&record);
         assert_eq!(text, Some("Hello world".to_string()));
@@ -214,8 +213,7 @@ mod tests {
 
     #[test]
     fn format_tool_status_bash_truncates() {
-        let input: serde_json::Value =
-            serde_json::json!({"command": "cargo test --lib watcher::parser -- --nocapture long_command"});
+        let input: serde_json::Value = serde_json::json!({"command": "cargo test --lib watcher::parser -- --nocapture long_command"});
         let status = format_tool_status("Bash", &input);
         assert!(status.starts_with("Running: "));
         assert!(status.len() <= 40);

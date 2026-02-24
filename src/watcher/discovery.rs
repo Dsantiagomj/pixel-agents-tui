@@ -50,6 +50,12 @@ pub struct SessionTracker {
     next_id: u32,
 }
 
+impl Default for SessionTracker {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl SessionTracker {
     pub fn new() -> Self {
         Self {
@@ -126,10 +132,8 @@ mod tests {
     fn tracker_detects_new_sessions() {
         let mut tracker = SessionTracker::new();
         tracker.update(&[PathBuf::from("/tmp/a.jsonl")]);
-        let (new, _) = tracker.update(&[
-            PathBuf::from("/tmp/a.jsonl"),
-            PathBuf::from("/tmp/c.jsonl"),
-        ]);
+        let (new, _) =
+            tracker.update(&[PathBuf::from("/tmp/a.jsonl"), PathBuf::from("/tmp/c.jsonl")]);
         assert_eq!(new.len(), 1);
         assert_eq!(new[0].0, 2);
     }
