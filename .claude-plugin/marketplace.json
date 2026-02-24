@@ -1,0 +1,21 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "pixel-agents-tui",
+  "description": "TUI dashboard for visualizing Claude Code agents as animated ASCII pixel art characters",
+  "owner": {
+    "name": "Daniel Munoz"
+  },
+  "plugins": [
+    {
+      "name": "pixel-agents-tui",
+      "description": "Auto-launches a terminal split pane with animated ASCII pixel art characters showing real-time Claude Code agent activity, sub-agent trees, and SDD workflow tracking.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Daniel Munoz"
+      },
+      "source": "./plugin",
+      "category": "visualization",
+      "homepage": "https://github.com/Dsantiagomj/pixel-agents-tui"
+    }
+  ]
+}

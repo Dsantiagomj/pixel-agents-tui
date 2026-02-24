@@ -4,6 +4,11 @@ version = "0.1.0"
 edition = "2021"
 description = "TUI dashboard for visualizing Claude Code agents as pixel art characters"
 license = "MIT"
+repository = "https://github.com/Dsantiagomj/pixel-agents-tui"
+homepage = "https://github.com/Dsantiagomj/pixel-agents-tui"
+readme = "README.md"
+keywords = ["tui", "claude", "pixel-art", "terminal", "agents"]
+categories = ["command-line-utilities", "visualization"]
 
 [dependencies]
 ratatui = "0.30"

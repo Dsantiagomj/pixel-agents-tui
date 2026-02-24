@@ -5,6 +5,8 @@
   "author": {
     "name": "Daniel Munoz"
   },
+  "homepage": "https://github.com/Dsantiagomj/pixel-agents-tui",
+  "repository": "https://github.com/Dsantiagomj/pixel-agents-tui",
   "license": "MIT",
   "hooks": "./hooks/hooks.json"
 }
