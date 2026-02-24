@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pixel-agents-tui --session-hook",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}

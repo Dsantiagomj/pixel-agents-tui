@@ -1,0 +1,10 @@
+{
+  "name": "pixel-agents-tui",
+  "description": "TUI dashboard for visualizing Claude Code agents as pixel art characters with real-time tool activity, sub-agent trees, and SDD workflow tracking",
+  "version": "0.1.0",
+  "author": {
+    "name": "Daniel Munoz"
+  },
+  "license": "MIT",
+  "hooks": "./hooks/hooks.json"
+}
