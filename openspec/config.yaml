@@ -1,0 +1,33 @@
+schema: spec-driven
+
+context: |
+  Tech stack: Rust (2021 edition), Ratatui 0.29, Crossterm 0.28, Tokio async
+  Architecture: Monolith binary with modules (terminal/, watcher/, state/, ui/)
+  Testing: Rust built-in (#[cfg(test)], cargo test)
+  Style: rustfmt, clippy, no unsafe unless justified
+  Build: cargo build/install
+  Platform: macOS (primary), Linux
+
+rules:
+  proposal:
+    - Include rollback plan for risky changes
+    - Identify affected modules (terminal, watcher, state, ui)
+  specs:
+    - Use Given/When/Then format for scenarios
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY)
+  design:
+    - Include data flow diagrams for cross-module interactions
+    - Document Rust-specific decisions (ownership, lifetimes, async boundaries)
+  tasks:
+    - Group tasks by module (terminal, watcher, state, ui, plugin)
+    - Use hierarchical numbering (1.1, 1.2, etc.)
+    - Keep tasks small enough to complete in one session
+  apply:
+    - Follow Rust idioms (Result/Option, pattern matching, iterators)
+    - No unwrap() in production code — use proper error handling
+    - Keep modules loosely coupled via traits
+  verify:
+    - Run cargo test, cargo clippy, cargo fmt --check
+    - Compare implementation against every spec scenario
+  archive:
+    - Warn before merging destructive deltas (large removals)
