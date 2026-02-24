@@ -16,22 +16,23 @@
 ---
 
 ```
-┌──────────────────── pixel-agents-tui ────────────────────┐
-│ ◉ Pixel Agents TUI    3 agents │ SDD: Apply (6/8)       │
-├──────────── Office ─────────────┼──── Agent Details ─────┤
-│                                 │                        │
-│   ╔═══╗  ╔═══╗  ╔═══╗         │ ▸ Agent #1 [● active]  │
-│   ╚═══╝  ╚═══╝  ╚═══╝         │   Tool: Write main.ts  │
-│    ◉₁     ◉₂                   │   Prompt: "Fix auth.." │
-│                                 │   SDD: Apply (6/8)     │
-│   ╔═══╗  ╔═══╗                 │   Sub-agents:          │
-│   ╚═══╝  ╚═══╝                 │   └─ Explore: search   │
-│           ◉₃    ◇              ├────────────────────────┤
-│                                 │   Agent #2 [○ waiting] │
-│                                 │   Last: Read config.ts │
-├─────────────────────────────────┴────────────────────────┤
-│ [q]uit  [1-9]select  [Tab]focus  [↑↓]scroll      10 FPS │
-└──────────────────────────────────────────────────────────┘
++-------------------  pixel-agents-tui  -------------------+
+| (*) Pixel Agents TUI  3 agents | SDD: Apply (6/8)       |
++-----------  Office  -----------+---- Agent Details ------+
+|                                |                         |
+|   +---+  +---+  +---+         | > Agent #1 [* active]   |
+|   |   |  |   |  |   |         |   Tool: Write main.ts   |
+|   +---+  +---+  +---+         |   Prompt: "Fix auth.."  |
+|    @1     @2                   |   SDD: Apply (6/8)      |
+|                                |   Sub-agents:           |
+|   +---+  +---+                 |    \- Explore: search   |
+|   |   |  |   |                 +-------------------------+
+|   +---+  +---+                 |   Agent #2 [o waiting]  |
+|           @3    <>             |   Last: Read config.ts  |
+|                                |                         |
++--------------------------------+-------------------------+
+| [q]uit  [1-9]select  [Tab]focus  [arrows]scroll   10 FPS |
++----------------------------------------------------------+
 ```
 
 ## About
