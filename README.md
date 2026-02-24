@@ -17,18 +17,18 @@
 
 ```
 +-------------------  pixel-agents-tui  -------------------+
-| (*) Pixel Agents TUI  3 agents | SDD: Apply (6/8)       |
+| (*) Pixel Agents TUI  3 agents                           |
 +-----------  Office  -----------+---- Agent Details ------+
 |                                |                         |
 |   +---+  +---+  +---+         | > Agent #1 [* active]   |
 |   |   |  |   |  |   |         |   Tool: Write main.ts   |
 |   +---+  +---+  +---+         |   Prompt: "Fix auth.."  |
-|    @1     @2                   |   SDD: Apply (6/8)      |
-|                                |   Sub-agents:           |
-|   +---+  +---+                 |    \- Explore: search   |
-|   |   |  |   |                 +-------------------------+
-|   +---+  +---+                 |   Agent #2 [o waiting]  |
-|           @3    <>             |   Last: Read config.ts  |
+|    @1     @2                   |   Sub-agents:           |
+|                                |    \- Explore: search   |
+|   +---+  +---+                 +-------------------------+
+|   |   |  |   |                 |   Agent #2 [o waiting]  |
+|   +---+  +---+                 |   Last: Read config.ts  |
+|           @3    <>             |                         |
 |                                |                         |
 +--------------------------------+-------------------------+
 | [q]uit  [1-9]select  [Tab]focus  [arrows]scroll   10 FPS |
@@ -54,7 +54,6 @@ There's also [Pixel Agents Desktop](https://github.com/Dsantiagomj/pixel-agents-
 - **Animated ASCII characters** at desks in a virtual office — each agent types, reads, or idles based on the tool it's currently using
 - **Real-time tool activity** — `Reading main.rs`, `Running: cargo test`, `Searching code`, `Writing auth.rs`...
 - **Sub-agent trees** — when an agent spawns sub-agents via the Task tool, they appear as smaller characters near the parent
-- **SDD workflow tracking** — detects [Spec-Driven Development](https://github.com/Dsantiagomj/pixel-agents-tui) phases: Explore, Propose, Spec, Design, Tasks, Apply, Verify, Archive
 - **Prompt summary** — the first meaningful text from each agent, so you know what it's working on
 
 ---
@@ -191,23 +190,6 @@ The TUI watches `~/.claude/projects/` recursively for `.jsonl` session files. It
 - **Dormant sessions**: files with no changes for 5+ minutes are marked dormant and the agent character turns gray
 - **Scan interval**: new sessions are checked every ~2 seconds
 
-### SDD phase detection
-
-If you use Spec-Driven Development, the TUI detects which phase the agent is in by watching for `Skill` tool invocations that match `sdd-*` patterns:
-
-| Detected skill | Phase shown |
-|---------------|-------------|
-| `sdd-explore` | Explore (1/8) |
-| `sdd-propose` | Propose (2/8) |
-| `sdd-spec` | Spec (3/8) |
-| `sdd-design` | Design (4/8) |
-| `sdd-tasks` | Tasks (5/8) |
-| `sdd-apply` | Apply (6/8) |
-| `sdd-verify` | Verify (7/8) |
-| `sdd-archive` | Archive (8/8) |
-
-The current SDD phase appears in the header bar and in the selected agent's detail panel.
-
 ### Status indicators
 
 | Symbol | Color | Meaning |
@@ -241,7 +223,7 @@ pixel-agents-tui
 │   ├── Session Discovery   Find new/removed .jsonl files
 │   ├── File Reader         Incremental offset-based reading
 │   └── Line Parser         Parse tool_use, tool_result, text, turn_duration
-├── Agent State Machine     Track status, tools, sub-agents, SDD phase
+├── Agent State Machine     Track status, tools, sub-agents
 └── Ratatui Renderer        Office view + agent sidebar @ 10 FPS
 ```
 
